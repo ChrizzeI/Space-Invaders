@@ -51,7 +51,7 @@ public class Alien : MonoBehaviour
         // causes errors in Unity .. will have to figure it out later..
 
         // Call changeAlienSprite () to cycle the Alien sprites
-        ChangeAlienSprite(); 
+        StartCoroutine(ChangeAlienSprite()); 
 
         // Defines a random fire wait time for each Alien
         baseFireWaitTime = baseFireWaitTime +
@@ -104,18 +104,24 @@ public class Alien : MonoBehaviour
     {
         while (true)
         {
+            yield return new WaitForSeconds(secBeforeSpriteChange);
+
             if (spriteRenderer.sprite == startingImage)
             {
                 spriteRenderer.sprite = altImage;
-                SoundManager.Instance.PlayOneShot(SoundManager.Instance.alienBuzz1);
+                if(SoundManager.Instance)
+                {
+                    SoundManager.Instance.PlayOneShot(SoundManager.Instance.alienBuzz1);
+                }
+                
             }
             else
             {
                 spriteRenderer.sprite = startingImage;
+               
                 SoundManager.Instance.PlayOneShot(SoundManager.Instance.alienBuzz2);
+                
             }
-
-            yield return new WaitForSeconds(secBeforeSpriteChange);
         }
     }
 
